@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgproc", "imgproc\imgproc.vcproj", "{035F7058-AE0C-485E-8D65-A920672B1E9C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgindex", "imgindex\imgindex.vcproj", "{EBE416B7-7AE2-4B25-A0AF-5DF031FCDFB2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{035F7058-AE0C-485E-8D65-A920672B1E9C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{035F7058-AE0C-485E-8D65-A920672B1E9C}.Debug|Win32.Build.0 = Debug|Win32
+		{035F7058-AE0C-485E-8D65-A920672B1E9C}.Release|Win32.ActiveCfg = Release|Win32
+		{035F7058-AE0C-485E-8D65-A920672B1E9C}.Release|Win32.Build.0 = Release|Win32
+		{EBE416B7-7AE2-4B25-A0AF-5DF031FCDFB2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EBE416B7-7AE2-4B25-A0AF-5DF031FCDFB2}.Debug|Win32.Build.0 = Debug|Win32
+		{EBE416B7-7AE2-4B25-A0AF-5DF031FCDFB2}.Release|Win32.ActiveCfg = Release|Win32
+		{EBE416B7-7AE2-4B25-A0AF-5DF031FCDFB2}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
