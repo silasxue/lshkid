@@ -170,7 +170,79 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\lshkit\archive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\common.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\composite.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\concept.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\eval.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\forest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\histogram.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\kernel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\lsh-index.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\lsh.h"
+				>
+			</File>
+			<File
 				RelativePath=".\lshkit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\matrix-io.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\matrix.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\metric.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\mplsh-model.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\mplsh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\sketch.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\topk.h"
+				>
+			</File>
+			<File
+				RelativePath=".\lshkit\tune.h"
 				>
 			</File>
 		</Filter>

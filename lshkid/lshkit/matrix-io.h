@@ -96,6 +96,28 @@ void Matrix<T>::save (const std::string &path)
     save(os);
 }
 
+template <class T>
+void Matrix<T>::loadMeta (std::istream &is)
+{
+	unsigned header[3]; /* entry size, row, col */
+	assert(sizeof header == 3*4);
+	is.read((char *)header, sizeof header);
+	verify(is);
+	verify(header[0] == sizeof(T));
+	reset(header[2], header[1]);
+	//unsigned sz = sizeof(T) * dim * N;
+	//is.read((char *)dims, sz);
+	verify(is);
+}
+
+template <class T>
+void Matrix<T>::readIth(std::istream &is, int i)
+{
+	int k = sizeof(T) * dim;
+	is.seekg(3*4+k*i, std::ios_base::beg);
+	is.read((char*)dims, k);
+}
+
 #ifdef MATRIX_MMAP
 template <class T>
 void Matrix<T>::map (const std::string &path) {

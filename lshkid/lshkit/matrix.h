@@ -45,6 +45,13 @@
 
 namespace lshkit {
 
+/// MatType
+/**
+ * Matrix type of access data.
+ * MEM - memory, HD - hard disk.
+ */
+enum MatType { MEM, HD };
+
 /// Matrix
 /**
   * An matrix of size (NxD) is used to store an array of N D-dimensional
@@ -55,6 +62,8 @@ class Matrix
 {
     int dim, N;
     T *dims;
+	MatType mtype;
+	std::ifstream is;
 
     void load (const char *);
     void save (const char *);
@@ -73,7 +82,15 @@ public:
         dim = _dim;
         N = _N;
         if (dims != NULL) delete[] dims;
-        dims = new T[dim * N];
+		if (mtype == MatType::MEM)
+		{
+			dims = new T[dim * N];
+		}
+		else
+		{
+			// only one row needed to be used, and read directly from file.
+			dims = new T[dim];
+		}
     }
 
     /// Release memory.
@@ -81,26 +98,39 @@ public:
         dim = N = 0;
         if (dims != NULL) delete[] dims;
         dims = NULL;
+		is.close();
     }
     
     /// Default constructor.
     /** Allocates an empty matrix.  Should invoke reset or load before using it.*/
-    Matrix () :dim(0), N(0), dims(NULL) {}
+	Matrix () :dim(0), N(0), dims(NULL), mtype(MatType::MEM) {}
 
     /// Constructor, same as Matrix() followed immediately by reset().
-    Matrix (int _dim, int _N) : dims(NULL) { reset(_dim, _N); }
+    Matrix (int _dim, int _N, MatType _mtype) : dims(NULL), mtype(_mtype) { reset(_dim, _N); }
 
     /// Destructor.
-    ~Matrix () { if (dims != NULL) delete[] dims; }
+    ~Matrix () { if (dims != NULL) delete[] dims; is.close(); }
 
     /// Access the ith vector.
-    const T *operator [] (int i) const {
-        return dims + i * dim;
-    }
+    /*const T *operator [] (int i) const {
+		return dims + i * dim;
+    }*/
 
     /// Access the ith vector.
     T *operator [] (int i) {
-        return dims + i * dim;
+		T* ds = 0;
+		if (mtype == MatType::MEM)
+		{
+			ds = dims + i * dim;
+		}
+		else
+		{
+			// read from file first.
+			readIth(is, i);
+			ds = dims;
+		}
+
+		return ds;
     }
 
     int getDim () const {return dim; }
@@ -122,6 +152,9 @@ public:
     void save (const std::string &path);
     void load (std::istream &is);
     void save (std::ostream &os);
+	// read only the summary information of the data
+	void loadMeta(std::istream &is);
+	void Matrix<T>::readIth(std::istream &is, int i);
 
 #ifdef MATRIX_MMAP
     void map (const std::string &path);
@@ -129,18 +162,32 @@ public:
 #endif
 
     /// Construct from a file.
-    Matrix (const std::string &path): dims(NULL) { load(path); }
+    Matrix (const std::string &path, MatType _mtype): dims(NULL), mtype(_mtype)
+	{
+		is.open(path.c_str(), std::ios::binary);
+
+		if (mtype == MatType::MEM)
+		{
+			// load all data into memory.
+			load(is);
+		}
+		else
+		{
+			// load metadata into memory, but not data.
+			loadMeta(is);
+		}
+	}
 
     /// An accessor class to be used with LSH index.
     class Accessor
     {
-        const Matrix &matrix_;
+        Matrix &matrix_;
         boost::dynamic_bitset<> flags_;
     public:
         typedef unsigned Key;
         typedef const float *Value;
 
-        Accessor(const Matrix &matrix)
+        Accessor(Matrix &matrix)
             : matrix_(matrix), flags_(matrix.getSize()) {}
 
         void reset () {

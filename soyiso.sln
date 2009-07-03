@@ -7,6 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgindex", "imgindex\imgind
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lshkid", "lshkid\lshkid.vcproj", "{B6380E25-BEEA-4FB8-9305-22A80F6E59D7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lshkid-test", "lshkid-test\lshkid-test.vcproj", "{AC8473BC-AA00-494A-ABCF-65DD2BB78C06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B6380E25-BEEA-4FB8-9305-22A80F6E59D7} = {B6380E25-BEEA-4FB8-9305-22A80F6E59D7}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -25,6 +30,10 @@ Global
 		{B6380E25-BEEA-4FB8-9305-22A80F6E59D7}.Debug|Win32.Build.0 = Debug|Win32
 		{B6380E25-BEEA-4FB8-9305-22A80F6E59D7}.Release|Win32.ActiveCfg = Release|Win32
 		{B6380E25-BEEA-4FB8-9305-22A80F6E59D7}.Release|Win32.Build.0 = Release|Win32
+		{AC8473BC-AA00-494A-ABCF-65DD2BB78C06}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AC8473BC-AA00-494A-ABCF-65DD2BB78C06}.Debug|Win32.Build.0 = Debug|Win32
+		{AC8473BC-AA00-494A-ABCF-65DD2BB78C06}.Release|Win32.ActiveCfg = Release|Win32
+		{AC8473BC-AA00-494A-ABCF-65DD2BB78C06}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -135,6 +135,8 @@
 #include <lshkit/mplsh-model.h>
 #include <lshkit/topk.h>
 
+#include <fstream>
+
 namespace lshkit
 {
 
@@ -269,7 +271,6 @@ public:
     typedef typename Super::Parameter Parameter;
 
 private:
-
     Parameter param_;
     MultiProbeLshRecallTable recall_;
 
@@ -344,7 +345,7 @@ public:
       * const Topk<KEY> &topk () const;
       */
     template <typename SCANNER>
-    void query_recall (Domain obj, float recall, SCANNER &scanner) const
+    void query_recall (Domain obj, float recall, SCANNER &scanner)
     {
         unsigned K = scanner.topk().getK();
         if (K == 0) throw std::logic_error("CANNOT ACCEPT R-NN QUERY");
