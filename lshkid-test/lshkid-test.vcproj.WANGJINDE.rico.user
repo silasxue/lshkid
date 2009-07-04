@@ -39,7 +39,7 @@
 			<DebugSettings
 				Command="$(TargetPath)"
 				WorkingDirectory=""
-				CommandArguments="-W 0.465833 -M 20 -T 20 -L 20 -K 20 -D E:\testsift\mm270k\test.sift.data --index E:\testsift\mm270k\test3.index -Q 100 -B e:\testsift\mm270k\test.sift.bm"
+				CommandArguments="-S 1 -W 0.465833 -M 20 -T 20 -L 20 -K 20 -D E:\testsift\mm270k\test.sift.data --index E:\testsift\mm270k\test3.index -Q 100 -B e:\testsift\mm270k\test.sift.bm"
 				Attach="false"
 				DebuggerType="3"
 				Remote="1"

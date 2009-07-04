@@ -129,6 +129,9 @@ int main (int argc, char *argv[])
 	bool do_benchmark = true;
 	bool use_index = false; // load the index from a file
 
+	MatType mtype = MatType::MEM;
+	int mt;
+
 	boost::timer timer;
 
 	po::options_description desc("Allowed options");
@@ -146,6 +149,7 @@ int main (int argc, char *argv[])
 		("benchmark,B", po::value<string>(&benchmark), "benchmark file")
 		("index", po::value<string>(&index_file), "index file")
 		(",H", po::value<unsigned>(&H)->default_value(1017881), "hash table size, use the default value.")
+		("datastore,S", po::value<int>(&mt)->default_value(0), "the store of data, 0-memory, 1-hard disk.")
 		;
 
 	po::variables_map vm;
@@ -178,10 +182,22 @@ int main (int argc, char *argv[])
 		use_index = true;
 	}
 
+	if (vm.count("datastore") >= 1) {
+		switch (mt)
+		{
+		case 0:
+			mtype = MatType::MEM;
+			break;
+		case 1:
+			mtype = MatType::HD;
+			break;
+		}
+	}
+
 	cout << "LOADING DATA..." << endl;
 	timer.restart();
 	// load data here
-	FloatMatrix data(data_file, MatType::HD);
+	FloatMatrix data(data_file, mtype);
 	cout << boost::format("LOAD TIME: %1%s.") % timer.elapsed() << endl;
 
 	typedef MultiProbeLshIndex<unsigned> Index;
