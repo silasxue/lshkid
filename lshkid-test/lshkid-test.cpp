@@ -288,6 +288,7 @@ int main (int argc, char *argv[])
 		TopkScanner<FloatMatrix::Accessor, metric::l2sqr<float> > query(accessor, l2sqr, K, R);
 		vector<Topk<unsigned> > topks(Q);
 
+		float* qp = new float[data.getDim()];
 		timer.restart();
 		if (do_recall)
 			// Specify the required recall
@@ -297,8 +298,10 @@ int main (int argc, char *argv[])
 			for (unsigned i = 0; i < Q; ++i)
 			{
 				// Query for one point.
-				query.reset(data[bench.getQuery(i)]);
-				index.query_recall(data[bench.getQuery(i)], desired_recall, query);
+				float* qpt = data[bench.getQuery(i)];
+				copy(qpt, qpt+data.getDim(), qp);
+				query.reset(qp);
+				index.query_recall(qp, desired_recall, query);
 				cost << double(query.cnt())/double(data.getSize());
 				topks[i].swap(query.topk());
 				++progress;
@@ -310,7 +313,8 @@ int main (int argc, char *argv[])
 			boost::progress_display progress(Q);
 			for (unsigned i = 0; i < Q; ++i)
 			{
-				float* qp = data[bench.getQuery(i)];
+				float* qpt = data[bench.getQuery(i)];
+				copy(qpt, qpt+data.getDim(), qp);
 				query.reset(qp);
 				index.query(qp, T, query);
 				cost << double(query.cnt())/double(data.getSize());
@@ -318,6 +322,7 @@ int main (int argc, char *argv[])
 				++progress;
 			}
 		}
+		delete[] qp;
 
 		for (unsigned i = 0; i < Q; ++i) {
 			recall << bench.getAnswer(i).recall(topks[i]);

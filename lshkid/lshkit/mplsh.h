@@ -26,6 +26,10 @@
   * results.  Equivalently, less hash tables are needed to achieve the same
   * accuracy.  The limitation is that the current implementation only works for
   * L2 distance.
+  *
+  * MPLSH supports two ways to access data: loads all data into memory at initial time;
+  * read from data file every time and only keep one record in the memory. So when the 
+  * latter way, the memory will be flushed when access new data record in the file.
   * 
   * Follow the following 4 steps to use the MPLSH API.
   * 
