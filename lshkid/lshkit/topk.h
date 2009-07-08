@@ -135,7 +135,7 @@ public:
         return th;
     }
 
-    /// Insert a new element, update the heap.
+    /// Insert a new element, update the heap. Should use priority queue when k is big, i.e. 1000.
     Topk &operator << (Element t)
     {
         if (!(t.dist < th)) return *this;

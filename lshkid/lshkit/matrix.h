@@ -20,6 +20,7 @@
 */
 
 #include <fstream>
+#include <cstdio>
 #include <boost/dynamic_bitset.hpp>
 
 /**
@@ -64,6 +65,7 @@ class Matrix
     T *dims;
 	MatType mtype;
 	std::ifstream is;
+	FILE* fdata;
 
     void load (const char *);
     void save (const char *);
@@ -98,7 +100,15 @@ public:
         dim = N = 0;
         if (dims != NULL) delete[] dims;
         dims = NULL;
-		is.close();
+		if (mtype == MatType::MEM)
+		{
+			is.close();
+		}
+		else
+		{
+			fclose(fdata);
+		}
+		
     }
     
     /// Default constructor.
@@ -109,7 +119,18 @@ public:
     Matrix (int _dim, int _N, MatType _mtype) : dims(NULL), mtype(_mtype) { reset(_dim, _N); }
 
     /// Destructor.
-    ~Matrix () { if (dims != NULL) delete[] dims; is.close(); }
+    ~Matrix ()
+	{ 
+		if (dims != NULL) delete[] dims; 
+		if (mtype == MatType::MEM)
+		{
+			is.close();
+		}
+		else
+		{
+			fclose(fdata);
+		}
+	}
 
     /// Access the ith vector.
     /*const T *operator [] (int i) const {
@@ -126,7 +147,7 @@ public:
 		else
 		{
 			// read from file first.
-			readIth(is, i);
+			readIth(fdata, i);
 			ds = dims;
 		}
 
@@ -154,7 +175,10 @@ public:
     void save (std::ostream &os);
 	// read only the summary information of the data
 	void loadMeta(std::istream &is);
-	void Matrix<T>::readIth(std::istream &is, int i);
+	void readIth(std::istream &is, int i);
+
+	void loadMeta(FILE* fdata);
+	void readIth(FILE* fdata, int i);
 
 #ifdef MATRIX_MMAP
     void map (const std::string &path);
@@ -164,17 +188,17 @@ public:
     /// Construct from a file.
     Matrix (const std::string &path, MatType _mtype): dims(NULL), mtype(_mtype)
 	{
-		is.open(path.c_str(), std::ios::binary);
-
 		if (mtype == MatType::MEM)
 		{
 			// load all data into memory.
+			is.open(path.c_str(), std::ios::binary);
 			load(is);
 		}
 		else
 		{
 			// load metadata into memory, but not data.
-			loadMeta(is);
+			fdata = fopen(path.c_str(), "rb");
+			loadMeta(fdata);
 		}
 	}
 

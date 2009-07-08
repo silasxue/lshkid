@@ -118,6 +118,25 @@ void Matrix<T>::readIth(std::istream &is, int i)
 	is.read((char*)dims, k);
 }
 
+template <class T>
+void Matrix<T>::loadMeta(FILE* fdata)
+{
+	unsigned header[3]; /* entry size, row, col */
+	assert(sizeof header == 3*4);
+	fread(header, sizeof(unsigned), 3, fdata);
+	verify(header[0] == sizeof(T));
+	reset(header[2], header[1]);
+}
+
+template <class T>
+void Matrix<T>::readIth(FILE* fdata, int i)
+{
+	int k = sizeof(T) * dim;
+	fseek(fdata, 3*4+k*i, SEEK_SET);
+	fread(dims, sizeof(T), dim, fdata);
+}
+
+
 #ifdef MATRIX_MMAP
 template <class T>
 void Matrix<T>::map (const std::string &path) {
